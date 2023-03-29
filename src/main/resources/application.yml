@@ -1,0 +1,16 @@
+micronaut:
+  application:
+    name: filmFestFreakBe
+  mongodb:
+    uri: mongodb://user:pass@localhost:27017/film-festival
+    database: film-festival
+netty:
+  default:
+    allocator:
+      max-order: 3
+logger:
+  levels:
+    io.micronaut.context.condition: TRACE
+mongodb:
+  uri: mongodb://user:pass@localhost:27017/film-festival
+  database: film-festival
