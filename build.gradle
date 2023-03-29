@@ -23,6 +23,7 @@ dependencies {
     compileOnly("io.micronaut.data:micronaut-data-document-processor")
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
+    testImplementation 'com.tngtech.archunit:archunit:1.0.1'
 
 }
 
