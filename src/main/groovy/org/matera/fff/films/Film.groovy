@@ -1,29 +1,20 @@
 package org.matera.fff.films
 
-import io.micronaut.core.annotation.NonNull
-import io.micronaut.core.annotation.Nullable
+import groovy.transform.PackageScope
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 
-import javax.validation.constraints.NotBlank
-
 @MappedEntity
+@PackageScope
 class Film {
 
     @Id
     @GeneratedValue
     String id
-
-    @NonNull
-    @NotBlank
-    final String name
-
-    @Nullable
+    String title
+    List<String> directors
     String description
-
-    Film(@NonNull String name, @Nullable String description) {
-        this.name = name
-        this.description = description
-    }
+    List<String> countries
+    int duration
 }
