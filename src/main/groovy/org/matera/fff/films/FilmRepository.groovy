@@ -7,8 +7,8 @@ import io.micronaut.data.repository.CrudRepository
 
 @MongoRepository
 @PackageScope
-interface FilmRepository extends CrudRepository<Film, String> {
+interface FilmRepository extends CrudRepository<FilmEntity, String> {
 
     @NonNull
-    List<Film> findByTitleInList(@NonNull List<String> names)
+    List<FilmEntity> findByTitleInList(@NonNull List<String> names)
 }

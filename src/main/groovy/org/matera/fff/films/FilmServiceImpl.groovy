@@ -26,12 +26,12 @@ class FilmServiceImpl implements FilmService {
 
     @Override
     FilmView save(NewFilm newFilm) {
-        Film film = FilmFactory.toFilm(newFilm)
-        Film result = saveInternal(film)
+        FilmEntity film = FilmFactory.toFilm(newFilm)
+        FilmEntity result = saveInternal(film)
         FilmFactory.toFilmView(result)
     }
 
-    private Film saveInternal(Film film) {
+    private FilmEntity saveInternal(FilmEntity film) {
         if (film.id == null) {
             filmRepository.save(film)
         } else {

@@ -1,5 +1,6 @@
 package org.matera.fff.films
 
+
 import org.matera.fff.films.api.NewFilm
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -11,8 +12,8 @@ class FilmServiceImplTests extends Specification {
 
     def "list should return a list of FilmView objects"() {
         given:
-        def film1 = new Film(title: "film1", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
-        def film2 = new Film(title: "film2", directors: ["director2"], description: "desc2", countries: ["country2"], duration: 90)
+        def film1 = new FilmEntity(title: "film1", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
+        def film2 = new FilmEntity(title: "film2", directors: ["director2"], description: "desc2", countries: ["country2"], duration: 90)
         filmRepository.findAll() >> [film1, film2]
 
         when:
@@ -35,7 +36,7 @@ class FilmServiceImplTests extends Specification {
     def "save should return a FilmView object"() {
         given:
         def newFilm = new NewFilm(title: "newFilm", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
-        def savedFilm = new Film(id: "1", title: "newFilm", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
+        def savedFilm = new FilmEntity(id: "1", title: "newFilm", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
         filmRepository.save(_) >> savedFilm
 
         when:
@@ -52,7 +53,7 @@ class FilmServiceImplTests extends Specification {
 
     def "find should return an Optional of FilmView object"() {
         given:
-        def film = new Film(id: "1", title: "film1", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
+        def film = new FilmEntity(id: "1", title: "film1", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
         filmRepository.findById("1") >> Optional.of(film)
 
         when:
@@ -69,7 +70,7 @@ class FilmServiceImplTests extends Specification {
 
     def "findByTitle should return an Optional of FilmView object"() {
         given:
-        def film = new Film(id: "1", title: "film1", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
+        def film = new FilmEntity(id: "1", title: "film1", directors: ["director1"], description: "desc1", countries: ["country1"], duration: 120)
         filmRepository.findByTitleInList(["film1"]) >> [film]
         when:
         def optionalResult = filmService.findByTitle("film1")

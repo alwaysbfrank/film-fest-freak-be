@@ -11,8 +11,8 @@ class FilmFactory {
         throw new IllegalStateException("Do not instantiate")
     }
 
-    static Film toFilm(NewFilm newFilm) {
-        new Film(
+    static FilmEntity toFilm(NewFilm newFilm) {
+        new FilmEntity(
                 title: newFilm.title, 
                 directors: newFilm.directors, 
                 description: newFilm.description,
@@ -21,7 +21,7 @@ class FilmFactory {
         )
     }
     
-    static FilmView toFilmView(Film film) {
+    static FilmView toFilmView(FilmEntity film) {
         new FilmView(
                 id: film.id,
                 title: film.title,

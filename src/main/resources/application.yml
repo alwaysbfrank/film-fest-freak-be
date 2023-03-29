@@ -3,3 +3,6 @@ micronaut:
     name: filmFestFreakBe
 mongodb:
   uri: mongodb://user:pass@localhost:27017/film-festival
+fff:
+  festival:
+    commercialsInMinutes: 10
