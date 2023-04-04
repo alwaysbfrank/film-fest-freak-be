@@ -59,7 +59,7 @@ class ScreeningServiceImpl implements ScreeningService {
     }
 
     private int calculateTotalLength(List<FilmView> films, int extraLength) {
-        films.collect { it.duration }.sum() + extraLength + commercialsInMinutes
+        (films.collect { it.duration }.sum() as int) + extraLength + commercialsInMinutes
     }
 
     private static ScreeningView convert(ScreeningEntity entity, List<FilmView> films) {
