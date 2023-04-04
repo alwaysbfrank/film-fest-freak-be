@@ -1,6 +1,6 @@
 package org.matera.fff.films
 
-
+import org.matera.fff.films.api.FilmView
 import org.matera.fff.films.api.NewFilm
 import spock.lang.Specification
 import spock.lang.Unroll
