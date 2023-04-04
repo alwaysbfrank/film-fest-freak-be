@@ -1,9 +1,13 @@
 package org.matera.fff.films
 
+import org.matera.fff.films.api.FilmScreeningView
 import org.matera.fff.films.api.FilmView
 import org.matera.fff.films.api.NewFilm
+import org.matera.fff.films.api.NewFilmScreening
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import java.time.LocalDateTime
 
 class FilmServiceImplTests extends Specification {
 
@@ -103,5 +107,60 @@ class FilmServiceImplTests extends Specification {
         "invalidTitle1" | _
         "invalidTitle2" | _
         "invalidTitle3" | _
+    }
+
+
+    def "addNewScreening adds new screening to film"() {
+
+        // Set up test data
+        given:
+        def newFilmScreening = new NewFilmScreening(
+                filmId: "1",
+                screeningId: "s1",
+                screeningRoomShortName: "A1",
+                start: LocalDateTime.of(2023, 4, 15, 18, 0),
+                end: LocalDateTime.of(2023, 4, 15, 20, 0),
+                length: 120,
+                comment: "Opening Night"
+        )
+
+        // Define expected filmView
+        def expectedFilmView = new FilmView(
+                id: "1",
+                title: "Film Title",
+                directors: ["Director 1", "Director 2"],
+                description: "Film Description",
+                countries: ["USA"],
+                duration: 120,
+                screenings: [
+                        new FilmScreeningView(
+                                screeningRoomShortName: "A1",
+                                start: LocalDateTime.of(2023, 4, 15, 18, 0),
+                                end: LocalDateTime.of(2023, 4, 15, 20, 0),
+                                length: 120,
+                                comment: "Opening Night"
+                        )
+                ]
+        )
+
+        // Set up the film entity
+        def filmEntity = new FilmEntity(
+                id: "1",
+                title: "Film Title",
+                directors: ["Director 1", "Director 2"],
+                description: "Film Description",
+                countries: ["USA"],
+                duration: 120,
+                screenings: []
+        )
+
+        // Configure the stubs
+        filmRepository.findById("1") >> Optional.of(filmEntity)
+
+        when:
+        def result = filmService.addNewScreening(newFilmScreening)
+
+        then:
+        result.get() == expectedFilmView
     }
 }

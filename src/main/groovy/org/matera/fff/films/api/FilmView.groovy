@@ -1,5 +1,8 @@
 package org.matera.fff.films.api
 
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode
 class FilmView {
     String id
     String title
