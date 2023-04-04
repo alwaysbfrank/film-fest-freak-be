@@ -4,6 +4,7 @@ import groovy.transform.PackageScope
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
+import jakarta.persistence.Embedded
 
 @MappedEntity("Film")
 @PackageScope
@@ -13,8 +14,10 @@ class FilmEntity {
     @GeneratedValue
     String id
     String title
-    List<String> directors
+    List<String> directors = []
     String description
-    List<String> countries
+    List<String> countries = []
     int duration
+    @Embedded
+    FilmScreeningEntityList screenings = new FilmScreeningEntityList()
 }

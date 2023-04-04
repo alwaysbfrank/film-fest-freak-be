@@ -7,4 +7,5 @@ class FilmView {
     String description
     List<String> countries
     int duration
+    List<FilmScreeningView> screenings
 }

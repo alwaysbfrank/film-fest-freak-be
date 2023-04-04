@@ -7,11 +7,8 @@ import io.micronaut.context.annotation.Value
 import jakarta.inject.Singleton
 import org.matera.fff.films.api.FilmService
 import org.matera.fff.films.api.FilmView
-import org.matera.fff.screenings.api.NewScreening
-import org.matera.fff.screenings.api.NewScreeningRoom
-import org.matera.fff.screenings.api.ScreeningRoomView
-import org.matera.fff.screenings.api.ScreeningService
-import org.matera.fff.screenings.api.ScreeningView
+import org.matera.fff.films.api.NewFilmScreening
+import org.matera.fff.screenings.api.*
 
 import java.time.LocalDateTime
 
@@ -36,14 +33,14 @@ class ScreeningServiceImpl implements ScreeningService {
     @Override
     ScreeningView addNewScreening(NewScreening newScreening) {
         List<FilmView> films = newScreening.filmIds
-                .collect {filmService.find(it)}
-                .findAll {it.isPresent()}
-                .collect{it.get()}
+                .collect { filmService.find(it) }
+                .findAll { it.isPresent() }
+                .collect { it.get() }
 
         int totalLength = calculateTotalLength(films, newScreening.extraLength)
         LocalDateTime end = newScreening.start.plusMinutes(totalLength)
         ScreeningRoomEntity roomEntity = screeningRoomService.findByShortName(newScreening.screeningRoomShortName).orElse(null)
-        List<String> filmIds = films.collect {it.id }
+        List<String> filmIds = films.collect { it.id }
         ScreeningEntity screeningEntity = new ScreeningEntity(
                 filmIds: filmIds,
                 screeningRoom: roomEntity,
@@ -54,7 +51,8 @@ class ScreeningServiceImpl implements ScreeningService {
                 totalLength: totalLength
         )
         def saveResult = screeningRepository.save(screeningEntity)
-        //todo add new screening to film
+        def filmServiceRequest = convert(saveResult)
+        filmService.addNewScreenings(filmServiceRequest)
         convert(saveResult, films)
     }
 
@@ -68,8 +66,23 @@ class ScreeningServiceImpl implements ScreeningService {
                 start: entity.start,
                 end: entity.end,
                 length: entity.totalLength,
-                filmTitles: films.collect{it.getTitle()},
+                filmTitles: films.collect { it.getTitle() },
                 comment: entity.comment
         )
+    }
+
+    private static List<NewFilmScreening> convert(ScreeningEntity entity) {
+        entity.filmIds
+                .collect {
+                    new NewFilmScreening(
+                            start: entity.start,
+                            end: entity.end,
+                            comment: entity.comment,
+                            length: entity.totalLength,
+                            filmId: it,
+                            screeningId: entity.id,
+                            screeningRoomShortName: entity.screeningRoom.shortName
+                    )
+                }
     }
 }
