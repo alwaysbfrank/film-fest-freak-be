@@ -2,12 +2,10 @@ package org.matera.fff
 
 import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.core.importer.ImportOption
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 
-import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
+import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices
 
-@MicronautTest
 class ArchitectureTests extends Specification {
 
     void 'no cyclic dependencies'() {
